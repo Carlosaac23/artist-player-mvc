@@ -1,0 +1,161 @@
+[
+  {
+    "title": "Starboy",
+    "songs": [
+      {
+        "name": "Starboy",
+        "duration": 3.5
+      },
+      {
+        "name": "False Alarm",
+        "duration": 3.4
+      },
+      {
+        "name": "Rockin",
+        "duration": 3.53
+      },
+      {
+        "name": "True Colors",
+        "duration": 3.26
+      },
+      {
+        "name": "Sidewalks",
+        "duration": 3.51
+      },
+      {
+        "name": "Love to Lay",
+        "duration": 3.43
+      },
+      {
+        "name": "Attention",
+        "duration": 3.18
+      },
+      {
+        "name": "Nothing Without You",
+        "duration": 3.19
+      },
+      {
+        "name": "Die for You",
+        "duration": 4.2
+      },
+      {
+        "name": "Party Monster",
+        "duration": 4.09
+      },
+      {
+        "name": "Reminder",
+        "duration": 3.39
+      },
+      {
+        "name": "Secrets",
+        "duration": 4.26
+      },
+      {
+        "name": "Stargirl Interlude",
+        "duration": 1.52
+      },
+      {
+        "name": "Six Feet Under",
+        "duration": 3.58
+      },
+      {
+        "name": "A Lonely Night",
+        "duration": 3.4
+      },
+      {
+        "name": "Ordinary Life",
+        "duration": 3.42
+      },
+      {
+        "name": "All I Know",
+        "duration": 5.21
+      },
+      {
+        "name": "I Feel It Coming",
+        "duration": 4.29
+      }
+    ]
+  },
+  {
+    "title": "After Hours",
+    "songs": [
+      {
+        "name": "Alone Again",
+        "duration": 4.1
+      },
+      {
+        "name": "Hardest to Love",
+        "duration": 3.31
+      },
+      {
+        "name": "Snowchild",
+        "duration": 4.07
+      },
+      {
+        "name": "Heartless",
+        "duration": 3.18
+      },
+      {
+        "name": "Blinding Lights",
+        "duration": 3.2
+      },
+      {
+        "name": "Save Your Tears",
+        "duration": 3.36
+      },
+      {
+        "name": "After Hours",
+        "duration": 6.01
+      },
+      {
+        "name": "Too Late",
+        "duration": 4
+      },
+      {
+        "name": "Scared to Live",
+        "duration": 3.11
+      },
+      {
+        "name": "Scape From LA",
+        "duration": 5.56
+      },
+      {
+        "name": "Faith",
+        "duration": 4.43
+      },
+      {
+        "name": "In Your Eyes",
+        "duration": 3.58
+      },
+      {
+        "name": "Repeat After Me",
+        "duration": 3.16
+      },
+      {
+        "name": "Until I Bleed Out",
+        "duration": 3.1
+      }
+    ]
+  },
+  {
+    "title": "Beauty Behind the Madness",
+    "songs": [
+      {
+        "name": "Real Life",
+        "duration": 3.43
+      },
+      {
+        "name": "Tell Your Friends",
+        "duration": 5.34
+      },
+      {
+        "name": "The Hills",
+        "duration": 4.02
+      },
+      {
+        "name": "Can't Feel My Face",
+        "duration": 3.34
+      }
+    ]
+  }
+]
