@@ -1,12 +1,13 @@
 import { readFileSync, writeFileSync } from 'fs';
 
-interface Song {
+export interface Song {
   name: string;
   duration: number; // Minutes
 }
 
-interface Album {
+export interface Album {
   title: string;
+  year: number;
   songs: Song[];
 }
 
@@ -20,7 +21,8 @@ class Artist {
   }
 
   getAllAlbums(): void {
-    const data = JSON.parse(readFileSync('./src/albums.json', 'utf-8'));
+    const filePath = './src/albums.json';
+    const data = JSON.parse(readFileSync(filePath, 'utf-8'));
     console.dir(data, { depth: null });
   }
 
@@ -28,7 +30,7 @@ class Artist {
   getSongs(albumName: string): void {
     const choosedAlbum = this.albums.find(album => album.title.toLowerCase() === albumName.toLowerCase());
     if (!choosedAlbum) {
-      return console.log(`El álbum: ${albumName} no existe.`);
+      return console.error(`El álbum: ${albumName} no existe.`);
     }
 
     const songs = choosedAlbum.songs;
@@ -39,11 +41,11 @@ class Artist {
   getLongestSong(albumName: string): void {
     const choosedAlbum = this.albums.find(album => album.title.toLowerCase() === albumName.toLowerCase());
     if (!choosedAlbum) {
-      return console.log(`El álbum: ${albumName} no existe.`);
+      return console.error(`El álbum: ${albumName} no existe.`);
     }
 
     if (choosedAlbum.songs.length === 0) {
-      return console.log('Este álbum no tiene canciones.');
+      return console.error('Este álbum no tiene canciones.');
     }
 
     const longestSong = choosedAlbum.songs.reduce((songOne, songTwo) => (songOne.duration > songTwo.duration ? songOne : songTwo));
@@ -53,106 +55,120 @@ class Artist {
   playRandomSong(albumName: string): void {
     const choosedAlbum = this.albums.find(album => album.title.toLowerCase() === albumName.toLowerCase());
     if (!choosedAlbum) {
-      return console.log(`El álbum: ${albumName} no existe.`);
+      return console.error(`El álbum: ${albumName} no existe.`);
     }
 
     const randomSong = Math.floor(Math.random() * choosedAlbum.songs.length);
     const chooseSong = choosedAlbum.songs[randomSong];
     if (!chooseSong) {
-      return console.log('No existe esa canción.');
+      return console.error('No existe esa canción.');
     }
     console.log(`Reproduciendo ${chooseSong.name} - ${this.name}`);
   }
 
   // Agrega una canción al álbum seleccionado
   addSongToAlbum(albumName: string, song: Song): void {
-    const file = readFileSync('./src/albums.json', 'utf-8');
+    const filePath = './src/albums.json';
+    const file = readFileSync(filePath, 'utf-8');
     const albumsData: Album[] = JSON.parse(file);
 
     const selectedAlbum = albumsData.find(album => album.title.toLowerCase() === albumName.toLowerCase());
     if (!selectedAlbum) {
-      return console.log(`El álbum: ${albumName} no existe.`);
+      return console.error(`El álbum: ${albumName} no existe.`);
+    }
+
+    if (!song || typeof song.name !== 'string' || song.name.trim() === '' || typeof song.duration !== 'number' || isNaN(song.duration) || song.duration <= 0) {
+      return console.error('La canción debe tener un nombre y una duración válida!⚠');
     }
 
     selectedAlbum.songs.push(song);
 
     try {
-      writeFileSync('./src/albums.json', JSON.stringify(albumsData, null, 2));
+      writeFileSync(filePath, JSON.stringify(albumsData, null, 2));
       return console.log('Canción agregada exitosamente!✅');
     } catch (error) {
-      console.error('Oops, algo ha salido mal al intentar guardar la canción:', error);
+      console.error('Oops, algo ha salido mal al intentar guardar la canción❌:', error);
     }
   }
 
   createAlbum(newAlbum: Album): void {
-    const file = readFileSync('./src/albums.json', 'utf-8');
+    const filePath = './src/albums.json';
+    const file = readFileSync(filePath, 'utf-8');
     const albumsData: Album[] = JSON.parse(file);
 
-    if (!newAlbum.title.trim()) {
-      return console.log('El álbum debe tener un título.⚠');
+    if (
+      !newAlbum ||
+      typeof newAlbum.title !== 'string' ||
+      newAlbum.title.trim() === '' ||
+      typeof newAlbum.year !== 'number' ||
+      typeof newAlbum.songs !== 'object'
+    ) {
+      return console.error('El álbum debe tener al menos un título, un año y un array de canciones.⚠');
     }
 
     const albumExists = albumsData.some(album => album.title.toLowerCase() === newAlbum.title.toLowerCase());
 
     if (albumExists) {
-      return console.log('Ese álbum ya existe.');
+      return console.error('Ese álbum ya existe.');
     }
 
     albumsData.push(newAlbum);
 
     try {
-      writeFileSync('./src/albums.json', JSON.stringify(albumsData, null, 2));
+      writeFileSync(filePath, JSON.stringify(albumsData, null, 2));
       return console.log('Album agregado exitosamente!✅');
     } catch (error) {
-      console.error('Oops, algo ha salido mal al intentar crear el álbum:', error);
+      console.error('Oops, algo ha salido mal al intentar crear el álbum❌:', error);
     }
   }
 
   // Borra una canción del álbum deseado
   deleteSong(albumName: string, songName: string): void {
-    const file = readFileSync('./src/albums.json', 'utf-8');
+    const filePath = './src/albums.json';
+    const file = readFileSync(filePath, 'utf-8');
     const albumsData: Album[] = JSON.parse(file);
 
     const albumIndex = albumsData.findIndex(album => album.title.toLowerCase() === albumName.toLowerCase());
     if (albumIndex === -1) {
-      return console.log(`No se encontró ningún álbum con el nombre: ${albumName}`);
+      return console.error(`No se encontró ningún álbum con el nombre: ${albumName}`);
     }
 
     const album = albumsData[albumIndex]!;
 
     const songIndex = album.songs.findIndex(song => song.name.toLowerCase() === songName.toLowerCase());
     if (songIndex === -1) {
-      return console.log(`No se encontró ninguna canción con el nombre: ${songName}`);
+      return console.error(`No se encontró ninguna canción con el nombre: ${songName}`);
     }
 
     // Elimina la canción
     album.songs.splice(songIndex, 1);
 
     try {
-      writeFileSync('./src/albums.json', JSON.stringify(albumsData, null, 2));
-      return console.log('Canción eliminada correctamente!❌');
+      writeFileSync(filePath, JSON.stringify(albumsData, null, 2));
+      return console.log('Canción eliminada correctamente!✅');
     } catch (error) {
-      console.error('Oops, algo ha salido mal al intentar borrar la canción:', error);
+      console.error('Oops, algo ha salido mal al intentar borrar la canción❌:', error);
     }
   }
 
   deleteAlbum(albumName: string): void {
-    const file = readFileSync('./src/albums.json', 'utf-8');
+    const filePath = './src/albums.json';
+    const file = readFileSync(filePath, 'utf-8');
     const albumsData: Album[] = JSON.parse(file);
 
     const albumIndex = albumsData.findIndex(album => album.title.toLowerCase() === albumName.toLowerCase());
 
     if (albumIndex === -1) {
-      return console.log(`No se encontró ningún álbum con el nombre: ${albumName}`);
+      return console.error(`No se encontró ningún álbum con el nombre: ${albumName}`);
     }
 
     albumsData.splice(albumIndex, 1);
 
     try {
-      writeFileSync('./src/albums.json', JSON.stringify(albumsData, null, 2));
-      return console.log('Album eliminado correctamente!❌');
+      writeFileSync(filePath, JSON.stringify(albumsData, null, 2));
+      return console.log('Album eliminado correctamente!✅');
     } catch (error) {
-      console.error('Oops, algo ha salido mal al intetar borrar el álbum:', error);
+      console.error('Oops, algo ha salido mal al intetar borrar el álbum❌:', error);
     }
   }
 }
