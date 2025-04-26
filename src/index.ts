@@ -17,11 +17,8 @@ function main(): void {
 
   for (let i = 0; i < argumentos.length; i++) {
     const argument = argumentos[i];
-    console.log(argument);
     const firstParameter = argumentos[i + 1];
-    console.log(firstParameter);
     const secondParameter = argumentos[i + 2];
-    console.log(secondParameter);
 
     if (argument === '--getAll') {
       artist1.getAllAlbums();
